@@ -1,7 +1,9 @@
 # imaginehack_speedbuild
 
+---
 
 ## Technologies we're going to use?
+
 
 ### Server-side
 1. python flask
@@ -17,13 +19,14 @@
    1. the game engine
 3. Bootstrap
 
+---
 
+### UN no.4 
+### Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all
 
-## Topic: UN no.4 "Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all"
+Idea originated from: forest https://www.forestapp.cc/
 
-### Idea originated from: forest https://www.forestapp.cc/
-
-### website function: 
+### website function:
 1. play a game to earn coins
 2. those coins can be exchanged for a funding in quality education
 
