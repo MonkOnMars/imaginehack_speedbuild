@@ -1,18 +1,29 @@
 # imaginehack_speedbuild
 
-1. python
-2. flask
-3. reactjs
+
+## Technologies we're going to use?
+
+### Server-side
+1. python flask
+   1. server routing
+   2. user cookie handling
+   3. user database handling
+   4. API hosting
+2. MySQL
+
+### Client-side
+1. reactjs
+2. PixiJS https://www.pixijs.com/
+   1. the game engine
+3. Bootstrap
 
 
-# hello world
 
+## Topic: UN no.4 "Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all"
 
-Topic: UN no.12 "Ensure sustainable consumption and production patterns"
+### Idea originated from: forest https://www.forestapp.cc/
 
-Reason: now ppl like to buy things online, but they never realise the amount of waste they're producing when they order online bcs of the packaging
+### website function: 
+1. play a game to earn coins
+2. those coins can be exchanged for a funding in quality education
 
-website function: 
-1. on this delivery
-   1. box size is x cm * x cm * x cm, 
-   2. hello hello
