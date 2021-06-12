@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {% for course in courseListing %}
+    <p>Course name: {{ course["course_name"]}}</p>
+    <p>Current Funds: {{ course["currency"] }} {{ course["current_available_funds"] }}</p>
+    <p>How much people are also funded: {{ course["funding_people_count"] }}</p>
+    {% endfor %}
+</body>
+
+</html>
