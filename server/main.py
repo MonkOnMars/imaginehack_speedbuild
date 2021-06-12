@@ -133,12 +133,16 @@ def market():
         for course in allCourse:
             tmp = {}
             tmp["course_name"] = course[1]
-            tmp["start_date"] = course[2]
-            tmp["end_date"] = course[3]
-            tmp["currency"] = course[4]
-            tmp["cost"] = course[5]
-            tmp["current_available_funds"] = course[6]
-            tmp["funding_people_count"] = course[7]
+            tmp["currency"] = course[2]
+            tmp["current_available_funds"] = course[3]
+            tmp["funding_people_count"] = course[4]
+            # tmp["course_name"] = course[1]
+            # tmp["start_date"] = course[2]
+            # tmp["end_date"] = course[3]
+            # tmp["currency"] = course[4]
+            # tmp["cost"] = course[5]
+            # tmp["current_available_funds"] = course[6]
+            # tmp["funding_people_count"] = course[7]
             courseListing.append(tmp)
 
         return render_template("market.html", courseListing=courseListing)
