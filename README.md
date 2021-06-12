@@ -4,6 +4,7 @@
 
 ## Technologies we're going to use?
 
+---
 
 ### Server-side
 1. python flask
@@ -21,20 +22,25 @@
 
 ---
 
-### UN no.4 
-### Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all
+## Topic
 
-Idea originated from: forest https://www.forestapp.cc/
+---
+### United Nation's Goal no.4 
+> Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all
+
+Webapp idea originated from: forest https://www.forestapp.cc/
 
 ### website function:
 1. play a game to earn coins
 2. those coins can be exchanged for a funding in quality education
 
-
+---
 
 ## Current status
 
-Running the web app
+---
+
+### Running the web app
 
 Make sure mysql is installed (assuming you're on ubuntu 18.04)
 
@@ -58,11 +64,32 @@ python3 main.py
 ```bash
 python3 main.py
 ```
-
+---
 
 ### Routes
 1. /
 2. /login
 3. /register
 4. /game
-5. /api
+5. /market
+6. /api
+
+
+---
+### Databases
+1. game
+
+### Tables
+
+| user |          |       |          |
+| ---- | -------- | ----- | -------- |
+| id   | username | email | password |
+
+
+| user_data |          |                 |               |               |
+| --------- | -------- | --------------- | ------------- | ------------- |
+| id        | username | available_coins | highest_level | funding_count |
+
+| market_data |             |               |                         |                      |
+| ----------- | ----------- | ------------- | ----------------------- | -------------------- |
+| id          | course_name | currency(MYR) | current_available_funds | funding_people_count |
