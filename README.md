@@ -42,10 +42,12 @@ Webapp idea originated from: forest https://www.forestapp.cc/
 
 ### Running the web app
 
-Make sure mysql is installed (assuming you're on ubuntu 18.04)
 
+### Ubuntu 18.04 instruction
 
-### Running at 1st time
+Make sure mysql is installed
+
+Running at 1st time
 ```bash
 git clone https://github.com/MonkOnMars/imaginehack_speedbuild
 
@@ -60,7 +62,7 @@ mysql -u root -p < sql_script.sql
 python3 main.py
 ```
 
-### Running at 2nd time and onwards
+Running at 2nd time and onwards
 ```bash
 python3 main.py
 ```
