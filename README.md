@@ -66,6 +66,25 @@ Running at 2nd time and onwards
 ```bash
 python3 main.py
 ```
+
+### Windows
+Make sure MySQL-server 8.0 and MySQL-shell is installed.
+https://dev.mysql.com/downloads/installer/
+
+```pwsh
+git clone https://github.com/MonkOnMars/imaginehack_speedbuild
+
+cd imaginehack_speedbuild
+py -m venv .
+cd server
+.\Scripts\activate
+pip install -r requirements.txt
+
+mysqlsh -u root -p --file .\sql_script.sql
+
+py main.py
+```
+
 ---
 
 ### Routes
