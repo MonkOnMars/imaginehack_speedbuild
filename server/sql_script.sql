@@ -3,19 +3,19 @@
 drop user if exists "abc"@"localhost";
 
 
---- creation of a user
+-- creation of a user
 create user "abc"@"localhost" identified by "abc";
 grant all privileges on game.* to "abc"@"localhost";
 flush privileges;
 
---- creation of database
+-- creation of database
 drop database if exists game;
 
 create database game;
 use game;
 
 
---- creation of tables
+-- creation of tables
 
 drop table if exists user;
 create table user (
