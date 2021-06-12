@@ -30,3 +30,39 @@ Idea originated from: forest https://www.forestapp.cc/
 1. play a game to earn coins
 2. those coins can be exchanged for a funding in quality education
 
+
+
+## Current status
+
+Running the web app
+
+Make sure mysql is installed (assuming you're on ubuntu 18.04)
+
+
+### Running at 1st time
+```bash
+git clone https://github.com/MonkOnMars/imaginehack_speedbuild
+
+cd imaginehack_speedbuild
+python3 -m venv .
+cd server
+source bin/activate
+pip install -r requirements.txt
+
+mysql -u root -p < sql_script.sql
+
+python3 main.py
+```
+
+### Running at 2nd time and onwards
+```bash
+python3 main.py
+```
+
+
+### Routes
+1. /
+2. /login
+3. /register
+4. /game
+5. /api
