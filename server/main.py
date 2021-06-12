@@ -1,12 +1,14 @@
-from flask import Flask, jsonify, abort, request, render_template, redirect, url_for
+from flask import Flask, jsonify, abort, request, render_template, redirect, url_for, session
 from flaskext.mysql import MySQL
 
 import secrets
 import hashlib
+import base64
 
 salt = b"brofist"  # the current salt for all password hashing
 
 app = Flask(__name__)
+app.secret_key = base64.b64decode("+e5vVi35gjRCAIXjWI/a/AvTX26gIvy1nVw4qiMX1RM=")
 
 mysql = MySQL(
     app,
@@ -15,7 +17,7 @@ mysql = MySQL(
     user="abc",
     password="abc",
     db="game",
-    autocommit=True, # auto commit and every database function
+    autocommit=True,  # auto commit and every database function
 )
 mysql.init_app(app)
 
@@ -28,6 +30,10 @@ who are we, what we do, what you can do...
 
 @app.route("/")
 def index():
+    """ Logged in """
+    if "username" in session:
+        return render_template("index.html", username=session["username"])
+
     return render_template("index.html")
 
 
@@ -36,11 +42,19 @@ A register page to enable the feature for tracking user progress?
 """
 
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods=["POST"])
 def register():
+    if "username" in session:
+        return redirect(url_for("index"))
+
     cursor = mysql.get_db().cursor()
+
     if request.method == "POST":
+
+        print(request.form)
+
         username = request.form.get('username')
+        email = request.form.get("email")
         password = request.form.get('password')
 
         password = hashlib.pbkdf2_hmac(
@@ -51,29 +65,29 @@ def register():
         )
         password = password.hex()
 
-        cursor.execute("insert into user (username,password) values (%s,%s)", (username, password))
+        """ username duplicate return error """
+        usernameCount = cursor.execute("select * from user where username=%s", (username))
+        emailCount = cursor.execute("select * from user where email=%s", (email))
+        if usernameCount == 0 and emailCount == 0:
+            cursor.execute("insert into user (username,email,password) values (%s,%s,%s)", (username, email, password))
 
-        return redirect(url_for("index"))
-    else:
-        return """
-        <form action="/register" method="POST">  
-            <label>Username : </label>   
-            <input type="text" placeholder="Enter Username" name="username" required>  
-            <label>Password : </label>   
-            <input type="password" placeholder="Enter Password" name="password" required>  
-            <button type="submit">Register</button>   
-            <input type="checkbox" checked="checked"> Remember me   
-            <button type="button" class="cancelbtn"> Cancel</button>   
-            Forgot <a href="#"> password? </a>   
-        </form>  
-        """
+            session["username"] = username
+
+            return redirect(url_for("index"))
+        else:
+            abort(500)
 
 
 """
 The login page
 """
-@app.route("/login", methods=["GET", "POST"])
+
+
+@app.route("/login", methods=["POST"])
 def login():
+    if "username" in session:
+        return redirect(url_for("index"))
+
     cursor = mysql.get_db().cursor()
 
     if request.method == "POST":
@@ -88,30 +102,21 @@ def login():
         )
         password = password.hex()
 
-        selectedCount = cursor.execute("select username,password from user where username=%s and password=%s", (username, password))
+        selectedCount = cursor.execute("select username from user where (username=%s or email=%s) and password=%s", (username, username, password))
         if selectedCount < 1:
-            return "wrong username/password"
+            abort(500)
+            # return "wrong username/password"
         else:
-            s = f"Welcome! {username} {password}"
-            return s
-    else:
-        return """
-        <form action="/login" method="POST">  
-            <label>Username : </label>   
-            <input type="text" placeholder="Enter Username" name="username" required>  
-            <label>Password : </label>   
-            <input type="password" placeholder="Enter Password" name="password" required>  
-            <button type="submit">Login</button>   
-            <input type="checkbox" checked="checked"> Remember me   
-            <button type="button" class="cancelbtn"> Cancel</button>   
-            Forgot <a href="#"> password? </a>   
-        </form>  
-        """
+            username = cursor.fetchone()[0]
+            session["username"] = username
+            return redirect(url_for("index"))
 
 
 """
 The page where the game is staying in
 """
+
+
 @app.route("/game")
 def game():
     return "Game page"
@@ -151,6 +156,8 @@ def market():
 """
 backend api for interacting with game updates, game info, player status
 """
+
+
 @app.route("/api", methods=["POST"])
 def api():
     userJSON = request.get_json()
@@ -166,6 +173,8 @@ def api():
 """
 Custom status_code rendering?
 """
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return "404 this page is not found"
