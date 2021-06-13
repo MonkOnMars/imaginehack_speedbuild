@@ -42,22 +42,29 @@
             .add("static/assets/game_files/img/water.json")
             .add("static/assets/game_files/img/player.png")
             .add("static/assets/game_files/img/obstacle.png")
+            .add("static/assets/game_files/img/end.png")
             .load(init)
 
 
-        let mapObj, playerObj, obstacleObj, obstacleGroup
+        let mapObj, playerObj, obstacleObj, obstacleGroup, endGameObj
         let textureObj
         let collapsedFrame = 0, collapsedFrame2 = 0
         let moveDelayFrame = 10, spawnDelayFrame = 50
         let obstacleMoveSpeed = 2
         let allObstacle = []
 
+        let username = ""
+        let score = 0
+
         let state;
         function init() {
 
-            fetch("/api/seed", { method: "POST" })
+            fetch("/api/userinfo", { method: "POST" })
                 .then(response => response.json())
-                .then(data => console.log(data["gameData"]["lvlSeed"]))
+                .then(data => {
+                    username = data["gameData"]["username"]
+                    console.log(data["gameData"]["username"])
+                })
 
             // map
             // left side water
@@ -141,15 +148,33 @@
             collapsedFrame2 += 1
             if (collapsedFrame2 - spawnDelayFrame == 0) {
                 collapsedFrame2 = 0
+                score += 1
                 createObstacle(delta)
             }
             moveObstacle()
             checkCollision()
+            checkOutbound()
         }
 
 
 
         function end() {
+
+            fetch("/api/gameEnd", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "username": username, "score": score })
+            }
+            )
+            textureObj = TextureCache["static/assets/game_files/img/end.png"]
+            endGameObj = new Sprite(textureObj)
+            app.stage.addChild(endGameObj)
+            app.renderer.render(app.stage)
+            app.ticker.stop()
+
+
 
         }
 
@@ -164,7 +189,8 @@
                 if (col != exitPoint) {
                     textureObj = TextureCache["static/assets/game_files/img/obstacle.png"]
                     obstacleObj = new Sprite(textureObj)
-                    obstacleObj.position.set(col * 45 + 45, 0)
+                    obstacleObj.anchor.set(0.5, 0.5)
+                    obstacleObj.position.set(col * 45 + 45 + Math.floor(45 / 2), 0)
 
                     allObstacle.push(obstacleObj)
                     app.stage.addChild(obstacleObj)
@@ -181,15 +207,14 @@
             for (var i = 0; i < allObstacle.length; i++) {
                 var status = hitTestRectangle(playerObj, allObstacle[i])
                 if (status)
-                    console.log("game should end")
+                    end()
             }
         }
 
         function checkOutbound() {
             for (var i = 0; i < allObstacle.length; i++) {
-                console.log("all ob")
-                console.log(allObstacle.length)
-                if(allObstacle[i].y >= app.stage.height)
+                // console.log(allObstacle.length)
+                if (allObstacle[i].y >= 600)
                     console.log("should delete stuff")
             }
         }
