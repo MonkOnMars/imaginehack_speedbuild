@@ -59,3 +59,9 @@ create table market_data (
     `funding_people_count` int default 0,
     primary key (`id`)
 );
+
+insert into market_data values(null, "Physic","MYR",5000.00,2);
+insert into market_data values(null, "Math","MYR",3000.00,1);
+insert into market_data values(null, "Computer Science","MYR",6000.00,5);
+insert into market_data values(null, "Web application","MYR",6000.00,7);
+insert into market_data values(null, "Logistic","MYR",3000.00,12);

@@ -1,0 +1,424 @@
+{
+    "frames": {
+        "water1.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water2.png": {
+            "frame": {
+                "x": 45,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 45,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water3.png": {
+            "frame": {
+                "x": 90,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 90,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water4.png": {
+            "frame": {
+                "x": 135,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 135,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water5.png": {
+            "frame": {
+                "x": 180,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 180,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water6.png": {
+            "frame": {
+                "x": 225,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 225,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water7.png": {
+            "frame": {
+                "x": 270,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 270,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water8.png": {
+            "frame": {
+                "x": 315,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 315,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water9.png": {
+            "frame": {
+                "x": 360,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 360,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water10.png": {
+            "frame": {
+                "x": 405,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 405,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water11.png": {
+            "frame": {
+                "x": 450,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 450,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water12.png": {
+            "frame": {
+                "x": 495,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 495,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water13.png": {
+            "frame": {
+                "x": 540,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 540,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water14.png": {
+            "frame": {
+                "x": 585,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 585,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water15.png": {
+            "frame": {
+                "x": 630,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 630,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water16.png": {
+            "frame": {
+                "x": 675,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 675,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        "water17.png": {
+            "frame": {
+                "x": 720,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 720,
+                "y": 0,
+                "w": 45,
+                "h": 45
+            },
+            "sourceSize": {
+                "w": 45,
+                "h": 45
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    },
+    "meta": {
+        "app": "custom python script",
+        "version": "1.0",
+        "image": "water.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 765,
+            "h": 45
+        },
+        "scale": "1",
+        "smartupdate": "$TexturePacker:SmartUpdate:51ede84c7a85e4d6aeb31a6020a20858:3923663e59fb40b578d66a492a2cda2d:9995f8b4db1ac3cb75651b1542df8ee2$"
+    }
+}

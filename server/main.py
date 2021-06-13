@@ -32,7 +32,7 @@ who are we, what we do, what you can do...
 def index():
     """ Logged in """
     if "username" in session:
-        return render_template("index.html", username=session["username"])
+        return render_template("index.html", username=session["username"], score=session["score"])
 
     return render_template("index.html")
 
@@ -70,8 +70,10 @@ def register():
         emailCount = cursor.execute("select * from user where email=%s", (email))
         if usernameCount == 0 and emailCount == 0:
             cursor.execute("insert into user (username,email,password) values (%s,%s,%s)", (username, email, password))
+            cursor.execute("insert into user_data (username,email,available_coins,highest_level,funding_count) values (%s,%s,%s,%s,%s)", (username, email, 0, 0, 0))
 
             session["username"] = username
+            session["score"] = 0
 
             return redirect(url_for("index"))
         else:
@@ -107,8 +109,11 @@ def login():
             abort(500)
             # return "wrong username/password"
         else:
+
             username = cursor.fetchone()[0]
+            userScore = cursor.execute("select available_coins from user_data where username=%s", (username))
             session["username"] = username
+            session["score"] = userScore
             return redirect(url_for("index"))
 
 
@@ -119,7 +124,11 @@ The page where the game is staying in
 
 @app.route("/game")
 def game():
-    return "Game page"
+    if "username" in session:
+
+        return render_template("game.html")
+    else:
+        return "you must logged in first"
 
 
 """
@@ -141,13 +150,6 @@ def market():
             tmp["currency"] = course[2]
             tmp["current_available_funds"] = course[3]
             tmp["funding_people_count"] = course[4]
-            # tmp["course_name"] = course[1]
-            # tmp["start_date"] = course[2]
-            # tmp["end_date"] = course[3]
-            # tmp["currency"] = course[4]
-            # tmp["cost"] = course[5]
-            # tmp["current_available_funds"] = course[6]
-            # tmp["funding_people_count"] = course[7]
             courseListing.append(tmp)
 
         return render_template("market.html", courseListing=courseListing)
@@ -158,16 +160,27 @@ backend api for interacting with game updates, game info, player status
 """
 
 
-@app.route("/api", methods=["POST"])
-def api():
-    userJSON = request.get_json()
+@app.route("/api/<endpoint>", methods=["POST"])
+def api(endpoint):
 
-    return jsonify(
-        gameData={
-            "lvl": 3,
-            "lvlSeed": secrets.token_hex(nbytes=16),  # the obstacle can be generated using these seed
-        }
-    )
+    if endpoint == "userinfo":
+        try:
+            return jsonify(
+                gameData={
+                    "username": session["username"],
+                    "lvlSeed": secrets.token_hex(nbytes=4),  # the obstacle can be generated using these seed
+                }
+            )
+        except Exception as e:
+            raise(e)
+            return "you must logged in first"
+
+    elif endpoint == "gameEnd":
+        print(request.args)
+        print(request.form)
+        userJSON = request.get_json()
+        print(userJSON["score"])
+        print(userJSON["score"])
 
 
 """

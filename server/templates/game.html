@@ -20,8 +20,8 @@
 
         //Create a Pixi Application
         let app = new PIXI.Application({
-            width: 256,         // default: 800
-            height: 256,        // default: 600
+            width: 320,         // default: 800
+            height: 600,        // default: 600
             antialias: true,    // default: false
             transparent: false, // default: false
             resolution: 1       // default: 1
@@ -30,13 +30,295 @@
         //Add the canvas that Pixi automatically created for you to the HTML document
         document.body.appendChild(app.view);
 
-        PIXI.loader.add("static/assets/game_files/img/cat.png").load(setup)
+        // Setting up alias
+        let TextureCache = PIXI.utils.TextureCache
+        let Rectangle = PIXI.Rectangle;
+        let Sprite = PIXI.Sprite;
+        let AnimatedSprite = PIXI.AnimatedSprite;
 
-        function setup() {
-            let cat = new PIXI.Sprite(PIXI.loader.resources["static/assets/game_files/img/cat.png"].texture)
 
-            app.stage.addChild(cat)
+        PIXI.loader
+            .add("static/assets/game_files/img/land.png")
+            .add("static/assets/game_files/img/water.json")
+            .add("static/assets/game_files/img/player.png")
+            .add("static/assets/game_files/img/obstacle.png")
+            .add("static/assets/game_files/img/end.png")
+            .load(init)
+
+
+        let mapObj, playerObj, obstacleObj, obstacleGroup, endGameObj
+        let textureObj
+        let collapsedFrame = 0, collapsedFrame2 = 0
+        let moveDelayFrame = 10, spawnDelayFrame = 50
+        let obstacleMoveSpeed = 2
+        let allObstacle = []
+
+        let username = ""
+        let score = 0
+
+        let state;
+        function init() {
+
+            fetch("/api/userinfo", { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    username = data["gameData"]["username"]
+                    console.log(data["gameData"]["username"])
+                })
+
+            // map
+            // left side water
+            for (var n = 0; n < 13; n++) {
+                let textureArray = []
+                for (var i = 0; i < 17; i++) {
+                    var s = `water${i + 1}.png`
+                    textureObj = PIXI.Texture.from(s)
+                    textureArray.push(textureObj)
+                }
+                mapObj = new AnimatedSprite(textureArray)
+
+                mapObj.y = (Math.floor(45 / 1) * n)
+                mapObj.play()
+                app.stage.addChild(mapObj)
+            }
+
+            // right side water
+            for (var n = 0; n < 13; n++) {
+                let textureArray = []
+                for (var i = 0; i < 17; i++) {
+                    var s = `water${i + 1}.png`
+                    textureObj = PIXI.Texture.from(s)
+                    textureArray.push(textureObj)
+                }
+                mapObj = new AnimatedSprite(textureArray)
+
+                mapObj.x = 45 * 6
+                mapObj.y = (Math.floor(45 / 1) * n)
+                mapObj.play()
+                app.stage.addChild(mapObj)
+            }
+
+            textureObj = TextureCache["static/assets/game_files/img/land.png"]
+            mapObj = new Sprite(textureObj)
+            app.stage.addChild(mapObj)
+
+            // Player 
+            textureObj = TextureCache["static/assets/game_files/img/player.png"]
+            playerObj = new Sprite(textureObj)
+            playerObj.anchor.set(0.5, 0.5)
+            console.log(playerObj.width)
+            playerObj.x = app.stage.width / 2
+            playerObj.y = app.stage.height - (app.stage.height - 13 * 45) - Math.floor(45 / 2)
+            playerObj.vx = 0
+            playerObj.vy = 0
+            app.stage.addChild(playerObj)
+
+            let moveLeft = keyboard("ArrowLeft"),
+                moveRight = keyboard("ArrowRight")
+
+            moveLeft.press = function () {
+                playerObj.vx = -45
+                playerObj.vy = 0
+            }
+            moveLeft.release = function () {
+                if (!moveRight.isDown && playerObj.vy === 0)
+                    playerObj.vx = 0
+            }
+            moveRight.press = function () {
+                playerObj.vx = 45
+                playerObj.vy = 0
+            }
+            moveRight.release = function () {
+                if (!moveLeft.isDown && playerObj.vy === 0)
+                    playerObj.vx = 0
+            }
+
+            state = play;
+
+            app.renderer.render(app.stage)
+
+            app.ticker.add(delta => gameLoop(delta));
         }
+        function gameLoop(delta) {
+            collapsedFrame += 1
+            if (collapsedFrame - moveDelayFrame == 0) {
+                collapsedFrame = 0
+                state(delta)
+            }
+            collapsedFrame2 += 1
+            if (collapsedFrame2 - spawnDelayFrame == 0) {
+                collapsedFrame2 = 0
+                score += 1
+                createObstacle(delta)
+            }
+            moveObstacle()
+            checkCollision()
+            checkOutbound()
+        }
+
+
+
+        function end() {
+
+            fetch("/api/gameEnd", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "username": username, "score": score })
+            }
+            )
+            textureObj = TextureCache["static/assets/game_files/img/end.png"]
+            endGameObj = new Sprite(textureObj)
+            app.stage.addChild(endGameObj)
+            app.renderer.render(app.stage)
+            app.ticker.stop()
+
+
+
+        }
+
+        function play(delta) {
+            if (playerObj.x + playerObj.vx <= 45 * 6 && playerObj.x + playerObj.vx >= 45 * 1)
+                playerObj.position.set(playerObj.x + playerObj.vx, playerObj.y + playerObj.vy)
+        }
+        function createObstacle(delta) {
+            //Obstacle
+            var exitPoint = Math.floor(Math.random() * 5)
+            for (var col = 0; col < 5; col++) {
+                if (col != exitPoint) {
+                    textureObj = TextureCache["static/assets/game_files/img/obstacle.png"]
+                    obstacleObj = new Sprite(textureObj)
+                    obstacleObj.anchor.set(0.5, 0.5)
+                    obstacleObj.position.set(col * 45 + 45 + Math.floor(45 / 2), 0)
+
+                    allObstacle.push(obstacleObj)
+                    app.stage.addChild(obstacleObj)
+                }
+            }
+        }
+        function moveObstacle() {
+            for (var i = 0; i < allObstacle.length; i++) {
+                allObstacle[i].position.set(allObstacle[i].x, allObstacle[i].y + obstacleMoveSpeed)
+            }
+        }
+
+        function checkCollision() {
+            for (var i = 0; i < allObstacle.length; i++) {
+                var status = hitTestRectangle(playerObj, allObstacle[i])
+                if (status)
+                    end()
+            }
+        }
+
+        function checkOutbound() {
+            for (var i = 0; i < allObstacle.length; i++) {
+                // console.log(allObstacle.length)
+                if (allObstacle[i].y >= 600)
+                    console.log("should delete stuff")
+            }
+        }
+
+        function keyboard(value) {
+            let key = {};
+            key.value = value;
+            key.isDown = false;
+            key.isUp = true;
+            key.press = undefined;
+            key.release = undefined;
+
+
+
+            //The `downHandler`
+            key.downHandler = event => {
+                if (event.key === key.value) {
+                    if (key.isUp && key.press) key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                    event.preventDefault();
+                }
+            };
+
+            //The `upHandler`
+            key.upHandler = event => {
+                if (event.key === key.value) {
+                    if (key.isDown && key.release) key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                    event.preventDefault();
+                }
+            };
+
+            //Attach event listeners
+            const downListener = key.downHandler.bind(key);
+            const upListener = key.upHandler.bind(key);
+
+            window.addEventListener(
+                "keydown", downListener, false
+            );
+            window.addEventListener(
+                "keyup", upListener, false
+            );
+
+            // Detach event listeners
+            key.unsubscribe = () => {
+                window.removeEventListener("keydown", downListener);
+                window.removeEventListener("keyup", upListener);
+            };
+
+            return key;
+        }
+
+        function hitTestRectangle(r1, r2) {
+
+            //Define the variables we'll need to calculate
+            let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
+
+            //hit will determine whether there's a collision
+            hit = false;
+
+            //Find the center points of each sprite
+            r1.centerX = r1.x + r1.width / 2;
+            r1.centerY = r1.y + r1.height / 2;
+            r2.centerX = r2.x + r2.width / 2;
+            r2.centerY = r2.y + r2.height / 2;
+
+            //Find the half-widths and half-heights of each sprite
+            r1.halfWidth = r1.width / 2;
+            r1.halfHeight = r1.height / 2;
+            r2.halfWidth = r2.width / 2;
+            r2.halfHeight = r2.height / 2;
+
+            //Calculate the distance vector between the sprites
+            vx = r1.centerX - r2.centerX;
+            vy = r1.centerY - r2.centerY;
+
+            //Figure out the combined half-widths and half-heights
+            combinedHalfWidths = r1.halfWidth + r2.halfWidth;
+            combinedHalfHeights = r1.halfHeight + r2.halfHeight;
+
+            //Check for a collision on the x axis
+            if (Math.abs(vx) < combinedHalfWidths) {
+
+                //A collision might be occurring. Check for a collision on the y axis
+                if (Math.abs(vy) < combinedHalfHeights) {
+
+                    //There's definitely a collision happening
+                    hit = true;
+                } else {
+
+                    //There's no collision on the y axis
+                    hit = false;
+                }
+            } else {
+
+                //There's no collision on the x axis
+                hit = false;
+            }
+
+            //`hit` will be either `true` or `false`
+            return hit;
+        };
 
     </script>
 </body>
