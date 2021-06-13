@@ -119,7 +119,7 @@ The page where the game is staying in
 
 @app.route("/game")
 def game():
-    return "Game page"
+    return render_template("game.html")
 
 
 """
@@ -141,13 +141,6 @@ def market():
             tmp["currency"] = course[2]
             tmp["current_available_funds"] = course[3]
             tmp["funding_people_count"] = course[4]
-            # tmp["course_name"] = course[1]
-            # tmp["start_date"] = course[2]
-            # tmp["end_date"] = course[3]
-            # tmp["currency"] = course[4]
-            # tmp["cost"] = course[5]
-            # tmp["current_available_funds"] = course[6]
-            # tmp["funding_people_count"] = course[7]
             courseListing.append(tmp)
 
         return render_template("market.html", courseListing=courseListing)
@@ -158,16 +151,17 @@ backend api for interacting with game updates, game info, player status
 """
 
 
-@app.route("/api", methods=["POST"])
-def api():
-    userJSON = request.get_json()
+@app.route("/api/<endpoint>", methods=["POST"])
+def api(endpoint):
 
-    return jsonify(
-        gameData={
-            "lvl": 3,
-            "lvlSeed": secrets.token_hex(nbytes=16),  # the obstacle can be generated using these seed
-        }
-    )
+    if endpoint == "seed":
+        # userJSON = request.get_json()
+
+        return jsonify(
+            gameData={
+                "lvlSeed": secrets.token_hex(nbytes=4),  # the obstacle can be generated using these seed
+            }
+        )
 
 
 """
