@@ -52,8 +52,8 @@ Running at 1st time
 git clone https://github.com/MonkOnMars/imaginehack_speedbuild
 
 cd imaginehack_speedbuild
-python3 -m venv .
 cd server
+python3 -m venv .
 source bin/activate
 pip install -r requirements.txt
 
@@ -75,8 +75,8 @@ https://dev.mysql.com/downloads/installer/
 git clone https://github.com/MonkOnMars/imaginehack_speedbuild
 
 cd imaginehack_speedbuild
-py -m venv .
 cd server
+py -m venv .
 .\Scripts\activate
 pip install -r requirements.txt
 
